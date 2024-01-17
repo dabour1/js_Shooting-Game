@@ -1,0 +1,84 @@
+body{
+    background-image: url(../images/6538524.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    
+}
+.bullet{
+        width: 20px;
+        height: 20px;
+        background-color: #58158b;
+        border-radius: 50%;
+        position:absolute;
+}
+.photos{
+    width: 120px;
+    height: 110px;
+    position:absolute;
+}
+.base{
+position: relative;
+}
+.blokcsCountinr{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    z-index: 0;
+    height:0px;
+}
+.blokcItem{
+    width: 4.1%;
+    height: 35px;
+    background-color: #C21292;
+    margin: 5px;
+    padding: 0;
+    border-radius: 5px;
+     position: relative;
+     float: right;
+     top:-190px;
+}
+.specialItems{
+    background-color: #FFA732;
+} 
+.done{
+    visibility: hidden;
+    width: 4.1%;
+    height: 35px;
+    background-color: #C21292;
+    margin: 5px;
+    padding: 0;
+    border-radius: 5px;
+     position: relative;
+     float: right;
+     top:-190px;
+}
+.swal-button{
+    position: relative;
+    border: none;
+    outline: none;
+}
+.startButton{
+    right: 180px;
+}
+.btnone{
+    right: 130px;
+}
+.btntwo{
+    background-color: #5f68db;
+    right: 120px;
+}
+.gameInfo{
+    background-color: #19003d;
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    padding: 5px 0;
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 4;
+}
+.gameInfo span{
+    margin-left: 0;
+}
