@@ -146,9 +146,9 @@ class Bullet
     class Game{
         
             constructor(){
-                this.gameGun=new Gun(`./images/2.png`,elementCountiner);
+                this.gameGun=new Gun(`./images/2.png`,gameCountiner);
                 this.gameGun.movingWithArrows();
-                this.gameBlocks=new Blocks(elementCountiner);
+                this.gameBlocks=new Blocks(gameCountiner);
                 
                 this.score=0;
                 this.destroyedBoxes=0;
@@ -165,7 +165,7 @@ class Bullet
                 {
                     this.gameGun.gunImg.style.left=( parseInt(  this.gameGun.gunImg.style.left)+ 20)+"px";
                         if(this.gameBulletsCount<30){
-                        this.gameBullets[this.gameBulletsCount]=new Bullet(elementCountiner,this.gameGun) ;
+                        this.gameBullets[this.gameBulletsCount]=new Bullet(gameCountiner,this.gameGun) ;
                         this.gameBullets[this.gameBulletsCount].moving();
                         this.gameBullets[this.gameBulletsCount].check(this); 
                         this.gameBulletsCount++;
@@ -187,7 +187,7 @@ class Bullet
                 {
                     this.gameGun.gunImg.style.left=( parseInt(  this.gameGun.gunImg.style.left)- 20)+"px";
                         if(this.gameBulletsCount<30){
-                        this.gameBullets[this.gameBulletsCount]=new Bullet(elementCountiner,this.gameGun) ;
+                        this.gameBullets[this.gameBulletsCount]=new Bullet(gameCountiner,this.gameGun) ;
                         this.gameBullets[this.gameBulletsCount].moving();
                         this.gameBullets[this.gameBulletsCount].check(this); 
                         this.gameBulletsCount++;
@@ -208,7 +208,7 @@ class Bullet
                 else if(keysPressed[" "]){
                    
                         if(this.gameBulletsCount<30){
-                        this.gameBullets[this.gameBulletsCount]=new Bullet(elementCountiner,this.gameGun) ;
+                        this.gameBullets[this.gameBulletsCount]=new Bullet(gameCountiner,this.gameGun) ;
                         this.gameBullets[this.gameBulletsCount].moving();
                         this.gameBullets[this.gameBulletsCount].check(this); 
                         this.gameBulletsCount++;
@@ -264,7 +264,6 @@ class Bullet
                 let counter=this.arrOfBlocks.length-1;
                 let flag=0;
                 this.gameBlocks.blokcsCountinr.style.paddingTop=parseInt(this.gameBlocks.blokcsCountinr.style.paddingTop)+3+"px";
-                // this.gameBlocks.blokcsCountinr.style.height=parseInt(this.gameBlocks.blokcsCountinr.style.height)+3+"px";
                 downCounter++;
                 if(swal.getState().isOpen)
                 {
@@ -421,8 +420,8 @@ const startGame=function(name,level,timer,lastScore=0){
                 document.querySelector(".blokcsCountinr").remove();
                 clearInterval(interval);
                 for(let i=0; i<localStorage.length;i++){
-                    if(JSON.parse(localStorage.getItem(localStorage.key(i))).name==name){
-                        localStorage.setItem(localStorage.key(i),JSON.stringify({name:name,score:newGame.score}));
+                    if(JSON.parse(localStorage.getItem(localStorage.key(i))).playername==name){
+                        localStorage.setItem(localStorage.key(i),JSON.stringify({playername:name,score:newGame.score}));
                     }
                 }
             }
@@ -430,8 +429,8 @@ const startGame=function(name,level,timer,lastScore=0){
                 
                 clearInterval(interval);
                 for(let i=0; i<localStorage.length;i++){
-                    if(JSON.parse(localStorage.getItem(localStorage.key(i))).name==name){
-                        localStorage.setItem(localStorage.key(i),JSON.stringify({name:name,score:newGame.score}));
+                    if(JSON.parse(localStorage.getItem(localStorage.key(i))).playername==name){
+                        localStorage.setItem(localStorage.key(i),JSON.stringify({playername:name,score:newGame.score}));
                     }
                 }
                 document.querySelector(".blokcsCountinr").remove();
@@ -492,109 +491,11 @@ const gameOver=function(){
 }
 const CheckLocal=function(value){
     for(let i=0; i<localStorage.length;i++){
-        if(JSON.parse(localStorage.getItem(localStorage.key(i))).name==value){
+        console.log(localStorage.getItem(localStorage.key(i)).playername,value)
+        if(JSON.parse(localStorage.getItem(localStorage.key(i))).playername==value){
             return true;
         }
     }
     return false;
 }
 
-
-/* 
-**************************************************************
-  to throw more than one bullet at the same time we can make some changes to the class like following
-*************************************************************
-
-
-// class Bullet
-    {
-        constructor( countiner,gun){  
-            
-            this.shape=document.createElement("div");
-            this.shape.classList.add("bullet");
-            this.baseElemnt=countiner;
-            this.shape.style.top=gun.gunImg.style.top; 
-            this.shape.style.left=parseInt(gun.gunImg.style.left)+gun.gunImg.width/2+"px"; 
-            this.shape.style.visibility="hidden"
-            this.baseElemnt.appendChild(this.shape)   
-        }
-        moving( ){
-                let moveInterval=setInterval(() =>
-                 {
-                    this.shape.style.visibility="visible";
-                    this.shape.style.top= parseInt(this.shape.style.top)-5+'px'; 
-               
-                if( this.shape.offsetTop<-30 ){
-                clearInterval(moveInterval);
-                 
-                }
-                },20);}
-                check(blocksArray)
-                {
-                     
-                    let checkInterval=setInterval(() =>
-                        {
-                            for(let i=0;i<blocksArray.length;i++)
-                            {
-                                if ((blocksArray[i].offsetTop<=  this.shape.offsetTop && blocksArray[i].offsetTop+blocksArray[i].clientHeight>= this.shape.offsetTop) && 
-                                (blocksArray[i].offsetLeft-30<= this.shape.offsetLeft &&blocksArray[i].offsetLeft+blocksArray[i].clientWidth >= this.shape.offsetLeft)&&
-                                (!blocksArray[i].getAttribute("class").includes("done")))
-                                {
-                                    blocksArray[i].classList.add("done")
-                                    this.shape.remove();
-                                    if(blocksArray[i].getAttribute("class").includes("specialItems"))
-                                    {
-                                        blocksArray[i+1].classList.add("done")
-                                        blocksArray[i-1].classList.add("done")
-                                        for(let x=0;x<blocksArray.length;x++)
-                                        {
-                                            if(blocksArray[i].offsetLeft==blocksArray[x].offsetLeft&&blocksArray[i].offsetTop==blocksArray[x].offsetTop+blocksArray[x].clientHeight+10||
-                                                blocksArray[i].offsetLeft==blocksArray[x].offsetLeft&&blocksArray[i].offsetTop==blocksArray[x].offsetTop-(blocksArray[x].clientHeight+10)
-                                                )
-                                                {
-                                                blocksArray[x].classList.add("done");
-                                                 
-                                                }
-                                        }
-                                    }
-                                    
-                                    break;
-                                }
-                                
-                                this.checkIntervalEnd=true;
-                                
-                            }
-                            
-                        if( this.intervalEnd ==true ||this.shape.offsetTop<-30 ){
-                        clearInterval(checkInterval)
-                        this.checkIntervalEnd =false;  
-                        }
-                    },20);
-                           
-                 }
-    } 
-
-
-// class Game{
-            constructor(){
-                this.gameGun=new Gun(`./2.png`,elementCountiner);
-                this.gameGun.movingWithArrows();
-                this.gameBlocks=new Blocks(elementCountiner);
-                this.arrOfBlocks=document.querySelectorAll(".blokcItem");
-            }
-            throwBullets(){
-
-                let gameBullets;
-                window.onkeydown=(event)=>{
-                    if(event.key==" "){
-                        gameBullets=new Bullet(elementCountiner,this.gameGun) ;
-                        gameBullets.moving();
-                        gameBullets.check(this.arrOfBlocks); 
-                         
-                }
-            }
-        }
-        
-    }
-
-*/
