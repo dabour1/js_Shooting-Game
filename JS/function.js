@@ -317,7 +317,7 @@ class Bullet
 
                         this.arrOfBlocks=document.querySelectorAll(".blokcItem");
                 
-                        this.gameBlocks.blokcsCountinr.style.height=parseInt(this.gameBlocks.blokcsCountinr.style.height)+45+"px";
+                        // this.gameBlocks.blokcsCountinr.style.height=parseInt(this.gameBlocks.blokcsCountinr.style.height)+45+"px";
                         downCounter=0;
                       
 
@@ -333,38 +333,85 @@ class Bullet
                 }
             }, 1000);
         }
-        
-        
-        else if(level ==2){
-            let id=setInterval(() => {
-                if(swal.getState().isOpen){
-                    clearInterval(id);
-                }
+        else if(level==2)
+        {
+            let id=setInterval(() => 
+            {
+                 
+                let counter=this.arrOfBlocks.length-1;
                 let flag=0;
                 this.gameBlocks.blokcsCountinr.style.paddingTop=parseInt(this.gameBlocks.blokcsCountinr.style.paddingTop)+3+"px";
-                if(swal.getState().isOpen){
+                downCounter++;
+                if(swal.getState().isOpen)
+                {
                     clearInterval(id);
-                }else{
-                    for(let i=counter; i>counter-20;i--){
-                        if(this.arrOfBlocks[i].getAttribute("class").includes("done")){
-                            flag++;
-                        }
-                    }
-                }
-                if(flag==20){
-                    for(let i=counter; i>counter-20;i--){
-                        this.arrOfBlocks[i].remove();
-                    }
-                    counter-=20;
-                    flag=0;
                 }
                 
-                if(this.gameBlocks.blokcsCountinr.clientHeight+this.gameBlocks.blokcsCountinr.offsetTop>=this.gameGun.gunImg.offsetTop){
+                    for(let i=counter ; i>counter-20;i--)
+                    {
+                        
+                        if(this.arrOfBlocks[i].getAttribute("class").includes("done"))
+                        {
+                            flag++;
+                        }
+                        
+                    }
+                     
+                
+                if(flag==20)
+                {
+                    for(let i=counter; i>counter-20;i--)
+                    {
+                        this.arrOfBlocks[i].classList.remove("done")
+                        this.arrOfBlocks[i].classList.add("activ")
+                        this.arrOfBlocks[i].style.backgroundColor="black";
+                        this.gameBlocks.blokcsCountinr.prepend(this.arrOfBlocks[i]);
+                    }
+                    flag=0;
+                    downCounter=0;
+                    // this.gameBlocks.blokcsCountinr.style.height=parseInt(this.gameBlocks.blokcsCountinr.style.height)-35+"px";
+ 
+                }
+                else if(downCounter==10)
+                {
+                    for(let i=0;i<20;i++)
+                    {
+                        this.blockItem=document.createElement("div"); 
+                        this.blockItem.classList.add("blokcItem", "activ");
+                        
+                        if (Math.floor(Math.random() * 120)===i){
+                            this.blockItem.classList.add("specialItems");
+                        }
+                        else if(Math.floor(Math.random() * 120)===i){
+                            this.blockItem.classList.add("specialItems");
+                        }
+                        else if(Math.floor(Math.random() * 120)===i){
+            
+                            this.blockItem.classList.add("specialItems");
+                        }
+                        this.gameBlocks.blokcsCountinr.prepend(this.blockItem);
+                        }
+
+                        this.arrOfBlocks=document.querySelectorAll(".blokcItem");
+                
+                        this.gameBlocks.blokcsCountinr.style.height=parseInt(this.gameBlocks.blokcsCountinr.style.height)+45+"px";
+                        downCounter=0;
+                      
+
+                }
+                if(swal.getState().isOpen)
+                {
+                    clearInterval(id);
+                }
+                else if(this.gameBlocks.blokcsCountinr.clientHeight+this.gameBlocks.blokcsCountinr.offsetTop>=this.gameGun.gunImg.offsetTop)
+                {
                     clearInterval(id);
                     gameOver();
                 }
-            }, 700);
+            }, 300);
         }
+
+
     }
 }
 const elementsCountiner=()=>{
@@ -480,7 +527,7 @@ const gameOver=function(){
         closeOnEsc: false,
     }).then((event)=>{
         if(event){
-            location.href="./index.html";
+            location.href="";
         }else{
             swal("Game Ended").then(()=>{
                 location.href="./index.html";
